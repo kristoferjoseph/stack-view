@@ -21,6 +21,7 @@ test('StackView', t=> {
     t.test('should add view', t=> {
       stack = StackView()
       t.equal(stack.push(v=>{return html`<h1>Yup</h1>`}), 1, 'pushed a view on to the stack')
+      console.info(stack.element)
       stack = null
       t.end()
     })
@@ -38,6 +39,7 @@ test('StackView', t=> {
       stack = StackView()
       stack.push(v=>{return html`<h1>Yup</h1>`})
       t.equal(stack.pop(), 0, 'popped a view off of the stack')
+      console.info(stack.element)
       stack = null
       t.end()
     })
@@ -56,6 +58,7 @@ test('StackView', t=> {
       var view = function () { return html`<h1>Yup</h1>` }
       t.equal(stack.push(view), 1, 'added a view')
       t.equal(stack.remove(view), 0, 'removed the view')
+      console.info(stack.element)
       stack = null
       t.end()
     })
@@ -75,6 +78,7 @@ test('StackView', t=> {
       var view1 = function () { return html`<h1>Yup</h1>` }
       t.equal(stack.push(view), 1, 'added a view')
       t.equal(stack.replace(view1), 1, 'replaced the view')
+      console.info(stack.element)
       stack = null
       t.end()
     })
@@ -84,6 +88,7 @@ test('StackView', t=> {
     t.test('should be exposed', t=> {
       stack = StackView()
       t.ok(stack.element, 'element is exposed')
+      console.info(stack.element)
       stack = null
       t.end()
     })
