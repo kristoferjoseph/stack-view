@@ -1,6 +1,7 @@
 var html = require('bel')
 var morph = require('nanomorph')
 var inWindow = require('in-window')
+var isFunction = v=> { return 'function' === typeof v }
 function noop () {}
 
 module.exports = function StackView (opts) {
@@ -34,7 +35,7 @@ module.exports = function StackView (opts) {
     return html`
       <section class=${classes}>
         ${views.map(v=> {
-          return v(store)
+          return isFunction(v) ? v(store) : v
         })}
       </section>
     `
