@@ -7,34 +7,30 @@ module.exports = function StackView (opts) {
   opts = opts || {}
   var store = opts.store || noop
   var classes = opts.classes || ''
-  var views = []
+  var views = opts.views || []
   var element
 
   function push (v) {
     views.push(v)
-    render()
-    return views.length
+    return render()
   }
 
   function pop () {
     views.pop()
-    render()
-    return views.length
+    return render()
   }
 
   function remove (v) {
     views.splice(views.indexOf(v), 1)
-    render()
-    return views.length
+    return render()
   }
 
   function replace (v) {
     views = [v]
-    render()
-    return views.length
+    return render()
   }
 
-  function create () {
+  function create (views) {
     return html`
       <section class=${classes}>
         ${views.map(v=> {
@@ -45,19 +41,15 @@ module.exports = function StackView (opts) {
   }
 
   function render () {
-    return views &&
-      views.length &&
-      inWindow &&
-      element ?
+    return inWindow && element ?
       morph(element, create(views)) :
       create(views)
   }
 
-  return {
-    push: push,
-    pop: pop,
-    replace: replace,
-    remove: remove,
-    get element() { return render(views) }
-  }
+  render.push = push
+  render.pop = pop
+  render.remove = remove
+  render.replace = replace
+
+  return render
 }

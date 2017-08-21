@@ -18,10 +18,10 @@ test('StackView', t=> {
       t.end()
     })
 
-    t.test('should add view', t=> {
+    t.test('should push view on to stack', t=> {
       stack = StackView()
-      t.equal(stack.push(v=>{return html`<h1>Yup</h1>`}), 1, 'pushed a view on to the stack')
-      console.info(stack.element)
+      var element = stack.push(store=>{return html`<h1>PUSH</h1>`})
+      t.ok(/PUSH/.test(element), 'pushed a view on to the stack')
       stack = null
       t.end()
     })
@@ -34,12 +34,15 @@ test('StackView', t=> {
       stack = null
       t.end()
     })
-
-    t.test('should pop off a view', t=> {
-      stack = StackView()
-      stack.push(v=>{return html`<h1>Yup</h1>`})
-      t.equal(stack.pop(), 0, 'popped a view off of the stack')
-      console.info(stack.element)
+    t.test('should pop view off of the stack', t=> {
+      stack = StackView({
+        views: [
+          store=>{return html`<h1>ONE</h1>`},
+          store=>{return html`<h1>TWO</h1>`}
+        ]
+      })
+      var element = stack.pop()
+      t.ok(!/TWO/.test(element), 'popped off the top view')
       stack = null
       t.end()
     })
@@ -52,13 +55,15 @@ test('StackView', t=> {
       stack = null
       t.end()
     })
-
-    t.test('should remove a view', t=> {
-      stack = StackView()
-      var view = function () { return html`<h1>Yup</h1>` }
-      t.equal(stack.push(view), 1, 'added a view')
-      t.equal(stack.remove(view), 0, 'removed the view')
-      console.info(stack.element)
+    t.test('should remove view from the stack', t=> {
+      var view = store=>{return html`<h1>REMOVE ME</h1>`}
+      stack = StackView({
+        views: [
+          view
+        ]
+      })
+      var element = stack.remove(view)
+      t.ok(!/REMOVE/.test(element), 'removed view from stack')
       stack = null
       t.end()
     })
@@ -71,24 +76,19 @@ test('StackView', t=> {
       stack = null
       t.end()
     })
-
-    t.test('should replace all views', t=> {
-      stack = StackView()
-      var view = function () { return html`<h1>Nope</h1>` }
-      var view1 = function () { return html`<h1>Yup</h1>` }
-      t.equal(stack.push(view), 1, 'added a view')
-      t.equal(stack.replace(view1), 1, 'replaced the view')
-      console.info(stack.element)
-      stack = null
-      t.end()
-    })
-  })
-
-  t.test('element', t=> {
-    t.test('should be exposed', t=> {
-      stack = StackView()
-      t.ok(stack.element, 'element is exposed')
-      console.info(stack.element)
+    t.test('should replace all views on the stack', t=> {
+      stack = StackView({
+        views: [
+          store=>{return html`<h1>ONE</h1>`},
+          store=>{return html`<h1>TWO</h1>`}
+        ]
+      })
+      var element = stack.replace(store=>{return html`<h1>REPLACED</h1>`})
+      t.ok(
+        !/ONE/.test(element) &&
+        !/TWO/.test(element) &&
+        /REPLACED/.test(element),
+        'replaced the views on the stack')
       stack = null
       t.end()
     })
