@@ -26,16 +26,6 @@ test('StackView', t=> {
       t.end()
     })
 
-    t.test('should push view function on to stack', t=> {
-      stack = StackView({
-        store: x=> { return {title: 'PUSH'} }
-      })
-
-      var element = stack.push(store=>{return html`<h1>${store().title}</h1>`})
-      t.ok(/PUSH/.test(element), 'pushed a view on to the stack')
-      stack = null
-      t.end()
-    })
   })
 
   t.test('pop', t=> {
@@ -57,36 +47,12 @@ test('StackView', t=> {
       stack = null
       t.end()
     })
-    t.test('should pop view function off of the stack', t=> {
-      stack = StackView({
-        views: [
-          store=>{return html`<h1>ONE</h1>`},
-          store=>{return html`<h1>TWO</h1>`}
-        ]
-      })
-      var element = stack.pop()
-      t.ok(!/TWO/.test(element), 'popped off the top view')
-      stack = null
-      t.end()
-    })
   })
 
   t.test('remove', t=> {
     t.test('should be exposed', t=> {
       stack = StackView()
       t.ok(stack.remove, 'remove function exposed')
-      stack = null
-      t.end()
-    })
-    t.test('should remove view function from the stack', t=> {
-      var view = store=>{return html`<h1>REMOVE ME</h1>`}
-      stack = StackView({
-        views: [
-          view
-        ]
-      })
-      var element = stack.remove(view)
-      t.ok(!/REMOVE/.test(element), 'removed view from stack')
       stack = null
       t.end()
     })
