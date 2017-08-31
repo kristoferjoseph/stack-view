@@ -25,21 +25,5 @@ stack.replace(view3)
 stack.remove(view3)
 ```
 
-### advanced
-
-in the advanced use case you can initialize the `stack-view` by passing a store and an array of initial views. Furthermore your component can be a function that gets passed the store supplied at instantiation time.
-
-```
-var Stack = require('stack-view')
-var html = require('bel')
-var stack = Stack({
-  store: x=> { return {title: 'FWEE', bobbles: 'FWI'} },
-  views: [
-    store=> {html`<h1>store().bobbles</h1>`}
-  ]
-})
-var element = stack.push(store=> {html`<h1>store().title</h1>`})
-```
-
 ## test
 `npm it`
