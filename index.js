@@ -39,9 +39,10 @@ module.exports = function StackView (opts) {
   }
 
   function render () {
-    return inWindow && element ?
-      morph(element, create(views)) :
-      create(views)
+    element = inWindow && element
+      ? morph(element, create(views))
+      : create(views)
+    return element
   }
 
   render.push = push
