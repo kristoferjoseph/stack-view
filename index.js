@@ -1,6 +1,4 @@
 var html = require('bel')
-var morph = require('nanomorph')
-var inWindow = require('in-window')
 
 module.exports = function StackView (opts) {
   opts = opts || {}
@@ -39,9 +37,7 @@ module.exports = function StackView (opts) {
   }
 
   function render () {
-    element = inWindow && element
-      ? morph(element, create(views))
-      : create(views)
+    element = create(views)
     return element
   }
 

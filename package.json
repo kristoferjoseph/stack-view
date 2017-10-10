@@ -19,8 +19,7 @@
   "dependencies": {
     "bel": "^5.0.2",
     "hash-switch": "^2.1.4",
-    "in-window": "^2.0.0",
-    "nanomorph": "^5.1.2"
+    "in-window": "^2.0.0"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
